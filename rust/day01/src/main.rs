@@ -19,8 +19,8 @@ fn main() {
             }
         }
 
-        println!("Total Part 1: {}", total_part_one);
-        println!("Total Part 2: {}", total_part_two);
+        println!("Solution Part 1: {}", total_part_one);
+        println!("Solution Part 2: {}", total_part_two);
     }
 }
 
