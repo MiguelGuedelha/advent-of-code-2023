@@ -1,3 +1,4 @@
+use io::BufReader;
 use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
@@ -12,11 +13,9 @@ fn main() {
             "4", "5", "6", "7", "8", "9",
         ];
 
-        for line in lines {
-            if let Ok(ip) = line {
-                total_part_one += part_one(&ip);
-                total_part_two += part_two(&ip, &digits);
-            }
+        for line in lines.flatten() {
+            total_part_one += part_one(&line);
+            total_part_two += part_two(&line, &digits);
         }
 
         println!("Solution Part 1: {}", total_part_one);
@@ -29,10 +28,10 @@ where
     P: AsRef<Path>,
 {
     let file = File::open(filename)?;
-    Ok(io::BufReader::new(file).lines())
+    Ok(BufReader::new(file).lines())
 }
 
-fn part_one(line: &String) -> i32 {
+fn part_one(line: &str) -> i32 {
     let mut first_digit: char = 'a';
     let mut last_digit: char = 'a';
     let char_vec: Vec<char> = line.chars().collect();
@@ -46,23 +45,23 @@ fn part_one(line: &String) -> i32 {
     }
 
     let line_number_string: String = format!("{}{}", first_digit, last_digit);
-    return line_number_string.parse::<i32>().unwrap();
+    line_number_string.parse::<i32>().unwrap()
 }
 
-fn part_two(line: &String, digit_names: &Vec<&str>) -> i32 {
+fn part_two(line: &str, digit_names: &[&str]) -> i32 {
     let mut indices_map: Vec<(usize, &str)> = Vec::new();
 
     for digit in digit_names.iter() {
         let indices: Vec<_> = line.match_indices(digit).collect();
-        if indices.len() > 0 {
-            indices_map.push(indices.first().unwrap().clone());
-            indices_map.push(indices.last().unwrap().clone());
+        if !indices.is_empty() {
+            indices_map.push(indices[0]);
+            indices_map.push(indices[indices.len() - 1]);
         }
     }
 
     indices_map.sort_by(|a, b| a.0.cmp(&b.0));
-    let first_digit_tuple: &(usize, &str) = indices_map.first().unwrap();
-    let last_digit_tuple: &(usize, &str) = indices_map.last().unwrap();
+    let first_digit_tuple: (usize, &str) = indices_map[0];
+    let last_digit_tuple: (usize, &str) = indices_map[indices_map.len() - 1];
 
     let first_digit_og_index = digit_names
         .iter()
@@ -86,5 +85,5 @@ fn part_two(line: &String, digit_names: &Vec<&str>) -> i32 {
     };
 
     let line_number_string: String = format!("{}{}", first_digit, last_digit);
-    return line_number_string.parse::<i32>().unwrap();
+    line_number_string.parse::<i32>().unwrap()
 }

@@ -86,11 +86,7 @@ fn part_two(games: &Vec<Vec<(&str, i32)>>) -> i32 {
 
 fn process_line(line: &str) -> (i32, Vec<Vec<(&str, i32)>>) {
     let split_one: Vec<&str> = line.split(':').collect();
-    let game_id: i32 = split_one[0]
-        .split(' ')
-        .collect::<Vec<&str>>()
-        .get(1)
-        .unwrap()
+    let game_id: i32 = split_one[0].split(' ').collect::<Vec<&str>>()[1]
         .parse()
         .unwrap();
 
