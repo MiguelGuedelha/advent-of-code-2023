@@ -24,7 +24,7 @@ fn main() {
         .collect();
 
     println!("Solution Part 1: {}", part_one(&line_matrix));
-    println!("Solution Part 1: {}", part_two(&line_matrix));
+    println!("Solution Part 2: {}", part_two(&line_matrix));
 }
 
 fn part_one(matrix: &[Vec<char>]) -> i32 {
