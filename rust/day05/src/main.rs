@@ -10,7 +10,7 @@ fn main() {
     println!("Solution Part 2: {}", part_two(&seeds, &maps));
 }
 
-fn part_one(seeds: &Vec<i64>, maps: &Vec<Vec<((i64, i64), (i64, i64))>>) -> i64 {
+fn part_one(seeds: &[i64], maps: &Vec<Vec<((i64, i64), (i64, i64))>>) -> i64 {
     let mut min_location = std::i64::MAX;
 
     for seed in seeds {
@@ -31,7 +31,7 @@ fn part_one(seeds: &Vec<i64>, maps: &Vec<Vec<((i64, i64), (i64, i64))>>) -> i64 
     min_location
 }
 
-fn part_two(seeds: &Vec<i64>, maps: &Vec<Vec<((i64, i64), (i64, i64))>>) -> i64 {
+fn part_two(seeds: &[i64], maps: &Vec<Vec<((i64, i64), (i64, i64))>>) -> i64 {
     let mut min_location = std::i64::MAX;
 
     let seed_ranges: Vec<(i64, i64)> = seeds
