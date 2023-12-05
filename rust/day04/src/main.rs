@@ -16,7 +16,7 @@ fn main() {
     let mut instances: HashMap<usize, i32> = HashMap::new();
 
     for (index, line) in line_matrix.iter().enumerate() {
-        let (winning_numbers, my_numbers) = process_line(&line);
+        let (winning_numbers, my_numbers) = process_line(line);
         total_part_one += part_one(&winning_numbers, &my_numbers);
         part_two(
             &winning_numbers,
@@ -31,7 +31,7 @@ fn main() {
     println!("Solution Part 2: {}", instances.values().sum::<i32>());
 }
 
-fn part_one(winning_numbers: &HashSet<i32>, my_numbers: &Vec<i32>) -> i32 {
+fn part_one(winning_numbers: &HashSet<i32>, my_numbers: &[i32]) -> i32 {
     my_numbers.iter().fold(0, |acc, num| {
         if !winning_numbers.contains(num) {
             return acc;
@@ -47,7 +47,7 @@ fn part_one(winning_numbers: &HashSet<i32>, my_numbers: &Vec<i32>) -> i32 {
 
 fn part_two(
     winning_numbers: &HashSet<i32>,
-    my_numbers: &Vec<i32>,
+    my_numbers: &[i32],
     instances: &mut HashMap<usize, i32>,
     current_line: usize,
     total_cards: usize,
@@ -76,6 +76,7 @@ fn part_two(
     }
 }
 
+#[allow(clippy::trim_split_whitespace)]
 fn process_line(line: &str) -> (HashSet<i32>, Vec<i32>) {
     let split: Vec<&str> = line.split('|').collect();
 
