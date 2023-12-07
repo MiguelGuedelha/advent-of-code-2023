@@ -24,35 +24,33 @@ fn main() {
     let hands_part_one: Vec<Hand> = lines
         .iter()
         .map(|line| {
-            let split = line.split(" ").collect::<Vec<&str>>();
+            let split = line.split(' ').collect::<Vec<&str>>();
             Hand::new(
                 Arc::from(split[0].chars().collect::<Vec<char>>()),
                 split[1].parse().unwrap(),
                 &card_map_part_one,
             )
         })
-        .collect::<Vec<Hand>>()
-        .into();
+        .collect::<Vec<Hand>>();
 
     let hands_part_two: Vec<Hand> = lines
         .iter()
         .map(|line| {
-            let split = line.split(" ").collect::<Vec<&str>>();
+            let split = line.split(' ').collect::<Vec<&str>>();
             Hand::new(
                 Arc::from(split[0].chars().collect::<Vec<char>>()),
                 split[1].parse().unwrap(),
                 &card_map_part_two,
             )
         })
-        .collect::<Vec<Hand>>()
-        .into();
+        .collect::<Vec<Hand>>();
 
     println!("Solution Part 1: {}", part_one(hands_part_one));
     println!("Solution Part 2: {}", part_two(hands_part_two));
 }
 
 fn part_one(hands: Vec<Hand>) -> i64 {
-    let mut values: Vec<Hand> = hands.clone();
+    let mut values: Vec<Hand> = hands;
     let mut acc = 0;
 
     values.sort();
@@ -65,8 +63,9 @@ fn part_one(hands: Vec<Hand>) -> i64 {
 }
 
 fn part_two(hands: Vec<Hand>) -> i64 {
-    let mut values: Vec<Hand> = hands.clone();
     let mut acc = 0;
+
+    let mut values: Vec<Hand> = hands;
 
     values = values
         .iter()
@@ -74,7 +73,7 @@ fn part_two(hands: Vec<Hand>) -> i64 {
             let j_count = hand.cards.iter().filter(|&x| x.0 == Card::J).count();
 
             let new_hand_type = if j_count > 0 {
-                HandType::new_handtype(j_count, hand.hand_name)
+                HandType::new_hand_type(j_count, hand.hand_name)
             } else {
                 hand.hand_name
             };
@@ -132,7 +131,7 @@ enum HandType {
 }
 
 impl HandType {
-    fn new_handtype(j_count: usize, previous: HandType) -> Self {
+    fn new_hand_type(j_count: usize, previous: HandType) -> Self {
         match (previous, j_count) {
             (Self::HighCard, _) => Self::OnePair,
             (Self::OnePair, _) => Self::ThreeOfAKind,
@@ -149,7 +148,7 @@ impl HandType {
 impl Hand {
     fn new(cards: Arc<[char]>, bid: i64, map: &HashMap<char, (Card, i64)>) -> Self {
         let hand_name = Hand::get_hand_name(cards.clone());
-        let cards_from_enum = cards.clone().iter().map(|card| map[card]).collect();
+        let cards_from_enum = cards.iter().map(|card| map[card]).collect();
         Self {
             cards: cards_from_enum,
             hand_name,
