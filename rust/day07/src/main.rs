@@ -83,15 +83,6 @@ fn part_two(hands: Vec<Hand>) -> i64 {
 
             new_hand.hand_name = new_hand_type;
 
-            if j_count > 0 {
-                println!(
-                    "Cards: {:?} | Old Hand: {:?} | New Hand: {:?}",
-                    hand.cards.iter().map(|x| x.0).collect::<Vec<Card>>(),
-                    hand.hand_name,
-                    new_hand_type
-                );
-            }
-
             new_hand
         })
         .collect();
