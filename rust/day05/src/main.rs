@@ -40,7 +40,6 @@ fn part_two(seeds: &[i64], maps: &Vec<Vec<((i64, i64), (i64, i64))>>) -> i64 {
         .collect();
 
     for (start, finish) in seed_ranges {
-        println!("Starting range [{}, {})", start, finish);
         for seed in start..=finish {
             let mut current = seed;
             for map in maps.iter() {
@@ -55,7 +54,6 @@ fn part_two(seeds: &[i64], maps: &Vec<Vec<((i64, i64), (i64, i64))>>) -> i64 {
                 min_location = current
             }
         }
-        println!("Finished range [{}, {})", start, finish);
     }
 
     min_location
