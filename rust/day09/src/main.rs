@@ -20,10 +20,12 @@ fn main() {
 }
 
 fn part_one(lines: &Vec<Vec<i64>>) -> i64 {
+    let mut acc = 0;
+
     for i in 0..lines.len() {
         let mut extrapolation_matrix: Vec<Vec<i64>> = Vec::new();
-        let line = &lines[i];
-        extrapolation_matrix.push(line.clone());
+        let line = lines[i].to_vec();
+        extrapolation_matrix.push(line);
 
         loop {
             let last = extrapolation_matrix.last().unwrap();
@@ -35,9 +37,43 @@ fn part_one(lines: &Vec<Vec<i64>>) -> i64 {
                 if result != 0 {
                     all_zero = false;
                 }
+            }
 
-                if z == last.len() - 2 && all_zero {
-                    next_line.push(0);
+            extrapolation_matrix.push(next_line);
+
+            if all_zero {
+                break;
+            }
+        }
+
+        let mut history_value_forward = 0;
+
+        for i in (0..extrapolation_matrix.len() - 1).rev() {
+            history_value_forward += extrapolation_matrix[i].last().unwrap();
+        }
+
+        acc += history_value_forward
+    }
+    acc
+}
+
+fn part_two(lines: &Vec<Vec<i64>>) -> i64 {
+    let mut acc = 0;
+
+    for i in 0..lines.len() {
+        let mut extrapolation_matrix: Vec<Vec<i64>> = Vec::new();
+        let line = lines[i].to_vec();
+        extrapolation_matrix.push(line);
+
+        loop {
+            let last = extrapolation_matrix.last().unwrap();
+            let mut next_line: Vec<i64> = Vec::new();
+            let mut all_zero = true;
+            for z in 0..last.len() - 1 {
+                let result = last[z + 1] - last[z];
+                next_line.push(last[z + 1] - last[z]);
+                if result != 0 {
+                    all_zero = false;
                 }
             }
 
@@ -47,12 +83,17 @@ fn part_one(lines: &Vec<Vec<i64>>) -> i64 {
                 break;
             }
         }
-    }
-    0
-}
 
-fn part_two(lines: &Vec<Vec<i64>>) -> i64 {
-    0
+        let mut history_value_backwards = 0;
+
+        for i in (1..extrapolation_matrix.len()).rev() {
+            history_value_backwards =
+                extrapolation_matrix[i - 1].first().unwrap() - history_value_backwards;
+        }
+
+        acc += history_value_backwards
+    }
+    acc
 }
 
 fn read_lines<P>(filename: P) -> io::Result<Lines<BufReader<File>>>
